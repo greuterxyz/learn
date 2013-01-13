@@ -64,14 +64,6 @@ int main()
 	{
 		fprintf(results,"%s %g %g\n",ss[i].name,ylength(&ss[i]),density(&ss[i]));
 	}
-/*
-        // Flush the input Stream
-
-        char flush;
-        while((flush = getchar()) != '\n' && flush != EOF);
-*/
-        // "getchar()" used to pause propgram (instead of system("pause")) for code portability to other OS'
-
         printf("Please press enter to continue");
         getchar();
         return(0);
