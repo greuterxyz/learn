@@ -6,18 +6,18 @@
 using namespace std;
 using namespace rapidxml;
 
-int main(int argc, char *argv[])
+//int main(int argc, char *argv[])
+int main(void)
 {
     string input_xml;
     string line;
 
-    ifstream in("C:\\Users\\Vladimir\\Documents\\GitHub\\xml-parser\\samplexml.txt");
+    ifstream in("/home/astraeus/prog/learn/xml-parser/region1-legends.xml");
     //Read file into string variable
     while(getline(in, line))
     {
         input_xml += line;
     }
-    //cout << input_xml << endl;
 
     //Create safely modifiable copy of input_xml
     vector<char> xml_copy(input_xml.begin(), input_xml.end());
@@ -28,20 +28,16 @@ int main(int argc, char *argv[])
 
     xml_node<> *pRoot = doc.first_node();
     cout << "Name of my first node is: " << doc.first_node()->name() << "\n";
-    cout << pRoot->first_node()->first_node()->name() << endl;
+    cout << pRoot->first_node("sites")->first_node()->value() << endl;
+    pRoot = pRoot->first_node("sites");
+    cout << pRoot->first_node()->name() << endl;
 
-    for (xml_attribute<> *attr = pRoot->first_attribute(); attr; attr = attr->next_attribute())
+    xml_node<> *siteNode = pRoot->first_node();
+    cout << siteNode->name() << endl;
+
+    for(siteNode = pRoot->first_node(); siteNode; siteNode = siteNode->next_sibling())
     {
-        cout << "O hai" << endl;
-        cout << "Node with foobar has attribute " << attr->name() << " ";
-        cout << "with value " << attr->value() << endl;
+        cout << siteNode->first_node("name")->value() << endl;
+        cout << siteNode->first_node("coords")->value() << endl;
     }
-
-/*
-    for(xml_node<> *pNode=pRoot->first_node("book"); pNode; pNode=pNode->next_sibling())
-    {
-        xml_node<> *pNode = pRoot->first_node("book");
-
-    }
-*/
 }
