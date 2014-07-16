@@ -40,6 +40,8 @@ int main(void)
     xml_node<> *pRoot = doc.first_node();
     vector<string> strs;
     int id;
+
+    //Iterates through the sites in the XML file
     for(xml_node<> *siteNode = pRoot->first_node("sites")->first_node(); siteNode; siteNode = siteNode->next_sibling())
     {
         try {
