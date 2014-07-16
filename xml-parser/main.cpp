@@ -66,6 +66,7 @@ int main(void)
     }
     cout << "Total number of sites " << id << endl;
 
+    //Prints the structure as a debug
     for(int i=1;i<=id;i++)
     {
         cout << "Site ID: " << i << endl;
