@@ -21,7 +21,8 @@ int main(void)
 {
     string input_xml;
     string line;
-    struct site site[500];
+    struct site* _site;
+    int num_sites;
 
     ifstream in("/home/astraeus/prog/learn/xml-parser/region1-legends.xml");
     //Read file into string variable
@@ -41,6 +42,10 @@ int main(void)
     vector<string> strs;
     int id;
 
+    //Find the number of sites
+    num_sites = boost::lexical_cast<int>(pRoot->first_node("sites")->last_node()->first_node("id")->value()) + 1;
+    _site = new site[num_sites];
+
     //Iterates through the sites in the XML file
     for(xml_node<> *siteNode = pRoot->first_node("sites")->first_node(); siteNode; siteNode = siteNode->next_sibling())
     {
@@ -49,17 +54,17 @@ int main(void)
         } catch( boost::bad_lexical_cast const& ) {
             std::cout << "Error: input string was not valid" << std::endl;
         }
-        site[id].name = siteNode->first_node("name")->value();
-        site[id].type = siteNode->first_node("type")->value();
+        _site[id].name = siteNode->first_node("name")->value();
+        _site[id].type = siteNode->first_node("type")->value();
         string coords = siteNode->first_node("coords")->value();
         boost::split(strs, coords, boost::is_any_of(","));
         try {
-            site[id].x = boost::lexical_cast<int>(strs[0]);
+            _site[id].x = boost::lexical_cast<int>(strs[0]);
         } catch( boost::bad_lexical_cast const& ) {
             std::cout << "Error: input string was not valid" << std::endl;
         }
         try {
-            site[id].y = boost::lexical_cast<int>(strs[1]);
+            _site[id].y = boost::lexical_cast<int>(strs[1]);
         } catch( boost::bad_lexical_cast const& ) {
             std::cout << "Error: input string was not valid" << std::endl;
         }
@@ -70,11 +75,13 @@ int main(void)
     for(int i=1;i<=id;i++)
     {
         cout << "Site ID: " << i << endl;
-        cout << "Name: " << site[i].name << endl;
-        cout << "Type: " << site[i].type << endl;
+        cout << "Name: " << _site[i].name << endl;
+        cout << "Type: " << _site[i].type << endl;
         cout << "Coordinates:" << endl;
-        cout << "x: " << site[i].x << endl;
-        cout << "y: " << site[i].y << endl << endl;
+        cout << "x: " << _site[i].x << endl;
+        cout << "y: " << _site[i].y << endl << endl;
     }
+
+    cout << "Number of sites: " << num_sites << endl;
 
 }
