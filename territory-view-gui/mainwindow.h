@@ -2,12 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTextBrowser>
 
 QT_BEGIN_NAMESPACE
 class QAction;
 class QActionGroup;
 class QLabel;
 class QMenu;
+class QTextBrowser;
 QT_END_NAMESPACE
 
 namespace Ui {
@@ -46,6 +48,9 @@ private:
     QAction *helpAct;
 
     QLabel *infoLabel;
+
+    QTextBrowser *textbrowser;
+
 };
 
 #endif // MAINWINDOW_H

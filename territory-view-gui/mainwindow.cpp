@@ -2,6 +2,13 @@
 #include "ui_mainwindow.h"
 #include <QtGui>
 
+#include "sites.h"
+#include "xml_parse.h"
+
+xml_parse parse;
+sites _sites;
+struct site _site;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -17,12 +24,19 @@ MainWindow::MainWindow(QWidget *parent) :
     infoLabel->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
     infoLabel->setAlignment(Qt::AlignCenter);
 
+    textbrowser = new QTextBrowser();
+    textbrowser->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
+    textbrowser->setAlignment(Qt::AlignLeft);
+
     QWidget *bottomFiller = new QWidget;
     bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setMargin(5);
     layout->addWidget(topFiller);
+    layout->addWidget(textbrowser);
     layout->addWidget(infoLabel);
     layout->addWidget(bottomFiller);
     widget->setLayout(layout);
@@ -60,6 +74,24 @@ void MainWindow::open()
                                                     tr("Open File"), QDir::homePath());
     if (!filename.isEmpty()) {
         infoLabel->setText(tr("Opened file %1").arg(filename));
+        parse.process_xml(filename.toStdString());
+        //_site = new site[parse.get_num_sites()];
+        if(parse.get_xml_load_status()==true)
+        {
+            infoLabel->setText(tr("XML successfully parsed"));
+            for(int i = 1; i<parse.get_num_sites(); i++)
+            {
+                QString qstr_name = QString::fromStdString(parse.return_site()[i].name);
+                QString qstr_type = QString::fromStdString(parse.return_site()[i].type);
+                //QString qstr_x = QString::fromStdString(parse.return_site()[i].x);
+                //QString qstr_y = QString::from (parse.return_site()[i].y);
+                textbrowser->append(tr("Name: %1").arg(qstr_name));
+                textbrowser->append(tr("Type: %1").arg(qstr_type));
+            }
+
+        }
+        else
+            infoLabel->setText(tr("XML parse failed"));
     }
 
 }
