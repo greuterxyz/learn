@@ -1,4 +1,5 @@
 #include "txt_parse.h"
+#include <regex>
 
 using namespace std;
 
@@ -15,5 +16,14 @@ void txt_parse::read_file(std::string fileName)
 
 void txt_parse::parse_line(std::string line)
 {
-    std::cout << line << endl;
+    //std::cout << line << std::endl;
+    if (line[0] == '\t')
+        //std::cout << "First character is a tab." << std::endl;
+        ;
+    else
+    {
+        std::cout << line << std::endl;
+        std::regex regex("([A-Za-z]+)");
+        std::cout << std::regex_match(line, regex) << std::endl;
+    }
 }

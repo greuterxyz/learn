@@ -4,8 +4,12 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    txt_parse.cpp
+    txt_parse.cpp \
+    sites.C
 
 HEADERS += \
-    txt_parse.h
+    txt_parse.h \
+    sites.h
+
+QMAKE_CXXFLAGS += -std=c++11
 
